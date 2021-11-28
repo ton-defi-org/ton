@@ -307,6 +307,13 @@ if (WINGETOPT_FOUND)
   target_link_libraries_system(tlbc wingetopt)
 endif()
 
+add_executable(vm-exec vm-exec/vm-exec.cpp)
+target_include_directories(vm-exec PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+target_link_libraries(vm-exec PUBLIC ton_crypto tdutils fift-lib terminal)
+if (WINGETOPT_FOUND)
+  target_link_libraries_system(func wingetop ton_crypto tdutils ton_crypto fift-lib)
+endif()
+
 add_library(pow-miner-lib util/Miner.cpp util/Miner.h)
 target_include_directories(pow-miner-lib PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 target_link_libraries(pow-miner-lib PUBLIC ton_crypto ton_block)
