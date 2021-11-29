@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
+
+set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl/")
+set(GSL_ROOT_DIR "/opt/homebrew/opt/gsl/")
+
 project(TON VERSION 0.5 LANGUAGES C CXX)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 #set(OPENSSL_USE_STATIC_LIBS TRUE)
@@ -80,7 +84,7 @@ else()
 endif()
 
 #BEGIN internal
-option(TON_ONLY_TONLIB "Use \"ON\" to build only tonlib." OFF)
+option(TON_ONLY_TONLIB "Use \"ON\" to build only tonlib." ON)
 if (TON_ONLY_TONLIB)
   set(NOT_TON_ONLY_TONLIB false)
 else()
@@ -204,7 +208,7 @@ find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
 
 if (TON_ARCH AND NOT MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=${TON_ARCH}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 endif()
 if (THREADS_HAVE_PTHREAD_ARG)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")

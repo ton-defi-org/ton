@@ -7,13 +7,11 @@
 #include "td/utils/base64.h"
 #include "td/utils/ScopeGuard.h"
 #include "terminal/terminal.h"
-#include "auto/tl/lite_api.hpp"
 #include "td/utils/Random.h"
 #include "td/utils/Time.h"
 #include "td/utils/filesystem.h"
 #include "td/utils/JsonBuilder.h"
 #include "td/utils/OptionParser.h"
-#include <fstream>
 
 using namespace std::literals::string_literals;
 
@@ -95,8 +93,6 @@ td::Ref<vm::Stack> json_to_stack(td::JsonArray& array) {
 }
 
 std::string stack_entry_to_json(vm::StackEntry se) {
-    auto out = td::TerminalIO::out();
-
     if (se.is_int()) {
         return R"({ "type": "int", "value": ")" + td::dec_string(se.as_int()) + R"("})";
     }
@@ -166,7 +162,6 @@ std::string stack2json(vm::Ref<vm::Stack> stack) {
 }
 
 std::string run_vm(td::Ref<vm::Cell> code_cell, td::Ref<vm::Cell> data, td::JsonArray& stack_array, int function_selector) {
-    auto out = td::TerminalIO::out();
     auto code = code_cell;
 
     auto stack = json_to_stack(stack_array);
@@ -189,6 +184,11 @@ std::string run_vm(td::Ref<vm::Cell> code_cell, td::Ref<vm::Cell> data, td::Json
     } catch (vm::VmError& err) {
         LOG(ERROR) << "error while running VM to locally compute runSmcMethod result: " << err.get_msg();
     }
+
+    if (exit_code != 0) {
+        return R"({ "exit_code": )" + std::to_string(exit_code) + "}";
+    }
+
     stack = vm.get_stack_ref();
 
     std::string result;
@@ -197,12 +197,12 @@ std::string run_vm(td::Ref<vm::Cell> code_cell, td::Ref<vm::Cell> data, td::Json
 
     auto serialized_data_cell = td::base64_encode(vm::std_boc_serialize(committed_state.c4).move_as_ok());
     auto serialized_action_list_cell = td::base64_encode(vm::std_boc_serialize(committed_state.c5).move_as_ok());
-    auto new_code_cell = td::base64_encode(vm::std_boc_serialize(vm.get_code()->get_base_cell()).move_as_ok());
 
     result += "{";
     result += R"("exit_code":)" + std::to_string(exit_code) + ",";
     result += R"("stack":)" + stack2json(stack) + ",";
     result += R"("data_cell": ")" + serialized_data_cell + R"(",)";
+    result += R"("gas_consumed": ")" + vm.gas_consumed() + R"(",)";
     result += R"("action_list_cell": ")" + serialized_action_list_cell + R"(")";
     result += "}";
 
