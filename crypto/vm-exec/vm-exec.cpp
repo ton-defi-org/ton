@@ -202,7 +202,7 @@ std::string run_vm(td::Ref<vm::Cell> code_cell, td::Ref<vm::Cell> data, td::Json
     result += R"("exit_code":)" + std::to_string(exit_code) + ",";
     result += R"("stack":)" + stack2json(stack) + ",";
     result += R"("data_cell": ")" + serialized_data_cell + R"(",)";
-    result += R"("gas_consumed": ")" + vm.gas_consumed() + R"(",)";
+    result += R"("gas_consumed": )" + std::to_string(vm.gas_consumed()) + R"(,)";
     result += R"("action_list_cell": ")" + serialized_action_list_cell + R"(")";
     result += "}";
 
