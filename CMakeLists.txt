@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
-
-set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl/")
-set(GSL_ROOT_DIR "/opt/homebrew/opt/gsl/")
-
 project(TON VERSION 0.5 LANGUAGES C CXX)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 #set(OPENSSL_USE_STATIC_LIBS TRUE)
@@ -84,7 +80,7 @@ else()
 endif()
 
 #BEGIN internal
-option(TON_ONLY_TONLIB "Use \"ON\" to build only tonlib." ON)
+option(TON_ONLY_TONLIB "Use \"ON\" to build only tonlib." OFF)
 if (TON_ONLY_TONLIB)
   set(NOT_TON_ONLY_TONLIB false)
 else()
@@ -208,7 +204,7 @@ find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
 
 if (TON_ARCH AND NOT MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=${TON_ARCH}")
 endif()
 if (THREADS_HAVE_PTHREAD_ARG)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
@@ -272,14 +268,14 @@ endif()
 
 set(INTERNAL_COMPILE "0")
 #BEGIN internal
-  add_definitions(-D_INTERNAL_COMPILE=1)
-  set(INTERNAL_COMPILE "1")
+add_definitions(-D_INTERNAL_COMPILE=1)
+set(INTERNAL_COMPILE "1")
 #END internal
 
 set(TONLIB_COMPILE "0")
 #BEGIN tonlib
-  add_definitions(-D_TONLIB_COMPILE=1)
-  set(TONLIB_COMPILE "1")
+add_definitions(-D_TONLIB_COMPILE=1)
+set(TONLIB_COMPILE "1")
 #END tonlib
 
 include(AddCXXCompilerFlag)
@@ -387,26 +383,26 @@ add_subdirectory(tonlib)
 
 #BEGIN internal
 if (NOT TON_ONLY_TONLIB)
-add_subdirectory(common)
-add_subdirectory(tdfec)
-add_subdirectory(keyring)
-add_subdirectory(fec)
-add_subdirectory(rldp)
-add_subdirectory(rldp2)
-add_subdirectory(dht)
-add_subdirectory(overlay)
-add_subdirectory(catchain)
-add_subdirectory(validator-session)
-add_subdirectory(validator)
-add_subdirectory(blockchain-explorer)
-add_subdirectory(storage)
-add_subdirectory(validator-engine)
-add_subdirectory(validator-engine-console)
-add_subdirectory(create-hardfork)
-add_subdirectory(dht-server)
-add_subdirectory(utils)
-add_subdirectory(http)
-add_subdirectory(rldp-http-proxy)
+  add_subdirectory(common)
+  add_subdirectory(tdfec)
+  add_subdirectory(keyring)
+  add_subdirectory(fec)
+  add_subdirectory(rldp)
+  add_subdirectory(rldp2)
+  add_subdirectory(dht)
+  add_subdirectory(overlay)
+  add_subdirectory(catchain)
+  add_subdirectory(validator-session)
+  add_subdirectory(validator)
+  add_subdirectory(blockchain-explorer)
+  add_subdirectory(storage)
+  add_subdirectory(validator-engine)
+  add_subdirectory(validator-engine-console)
+  add_subdirectory(create-hardfork)
+  add_subdirectory(dht-server)
+  add_subdirectory(utils)
+  add_subdirectory(http)
+  add_subdirectory(rldp-http-proxy)
 endif()
 #END internal
 
@@ -460,78 +456,78 @@ endif()
 
 #BEGIN internal
 if (NOT TON_ONLY_TONLIB)
-add_executable(test-db test/test-td-main.cpp ${TONDB_TEST_SOURCE})
-target_link_libraries(test-db PRIVATE ton_db memprof tdfec)
+  add_executable(test-db test/test-td-main.cpp ${TONDB_TEST_SOURCE})
+  target_link_libraries(test-db PRIVATE ton_db memprof tdfec)
 
-add_executable(test-storage test/test-td-main.cpp ${STORAGE_TEST_SOURCE})
-target_link_libraries(test-storage PRIVATE storage ton_db memprof tl_api tl-utils fec rldp2)
+  add_executable(test-storage test/test-td-main.cpp ${STORAGE_TEST_SOURCE})
+  target_link_libraries(test-storage PRIVATE storage ton_db memprof tl_api tl-utils fec rldp2)
 
-add_executable(test-rocksdb test/test-rocksdb.cpp)
-target_link_libraries(test-rocksdb PRIVATE memprof tddb tdutils)
+  add_executable(test-rocksdb test/test-rocksdb.cpp)
+  target_link_libraries(test-rocksdb PRIVATE memprof tddb tdutils)
 
-add_executable(test-tddb test/test-td-main.cpp ${TDDB_TEST_SOURCE})
-target_link_libraries(test-tddb PRIVATE tdutils tddb ${CMAKE_THREAD_LIBS_INIT} memprof)
+  add_executable(test-tddb test/test-td-main.cpp ${TDDB_TEST_SOURCE})
+  target_link_libraries(test-tddb PRIVATE tdutils tddb ${CMAKE_THREAD_LIBS_INIT} memprof)
 
-add_executable(test-fec test/test-td-main.cpp ${FEC_TEST_SOURCE})
-target_link_libraries(test-fec PRIVATE tdfec tdutils ${CMAKE_THREAD_LIBS_INIT})
-if (USE_LIBRAPTORQ)
-  target_link_libraries(test-fec PRIVATE third_party_fec)
-  target_compile_definitions(test-fec PRIVATE "USE_LIBRAPTORQ=1")
-endif()
+  add_executable(test-fec test/test-td-main.cpp ${FEC_TEST_SOURCE})
+  target_link_libraries(test-fec PRIVATE tdfec tdutils ${CMAKE_THREAD_LIBS_INIT})
+  if (USE_LIBRAPTORQ)
+    target_link_libraries(test-fec PRIVATE third_party_fec)
+    target_compile_definitions(test-fec PRIVATE "USE_LIBRAPTORQ=1")
+  endif()
 
-add_executable(test-hello-world test/test-hello-world.cpp )
-target_link_libraries(test-hello-world tl_api ton_crypto)
+  add_executable(test-hello-world test/test-hello-world.cpp )
+  target_link_libraries(test-hello-world tl_api ton_crypto)
 
-add_executable(test-adnl test/test-adnl.cpp)
-target_link_libraries(test-adnl adnl adnltest dht tl_api)
-add_executable(test-dht test/test-dht.cpp)
-target_link_libraries(test-dht adnl adnltest dht tl_api)
-add_executable(test-rldp test/test-rldp.cpp)
-target_link_libraries(test-rldp adnl adnltest dht rldp tl_api)
-add_executable(test-rldp2 test/test-rldp2.cpp)
-target_link_libraries(test-rldp2 adnl adnltest dht rldp2 tl_api)
-add_executable(test-validator-session-state test/test-validator-session-state.cpp)
-target_link_libraries(test-validator-session-state adnl dht rldp validatorsession tl_api)
+  add_executable(test-adnl test/test-adnl.cpp)
+  target_link_libraries(test-adnl adnl adnltest dht tl_api)
+  add_executable(test-dht test/test-dht.cpp)
+  target_link_libraries(test-dht adnl adnltest dht tl_api)
+  add_executable(test-rldp test/test-rldp.cpp)
+  target_link_libraries(test-rldp adnl adnltest dht rldp tl_api)
+  add_executable(test-rldp2 test/test-rldp2.cpp)
+  target_link_libraries(test-rldp2 adnl adnltest dht rldp2 tl_api)
+  add_executable(test-validator-session-state test/test-validator-session-state.cpp)
+  target_link_libraries(test-validator-session-state adnl dht rldp validatorsession tl_api)
 
-#add_executable(test-node test/test-node.cpp)
-#target_link_libraries(test-node overlay tdutils tdactor adnl tl_api dht
-#  catchain validatorsession)
+  #add_executable(test-node test/test-node.cpp)
+  #target_link_libraries(test-node overlay tdutils tdactor adnl tl_api dht
+  #  catchain validatorsession)
 
-add_executable(test-catchain test/test-catchain.cpp)
-target_link_libraries(test-catchain overlay tdutils tdactor adnl adnltest rldp tl_api dht
-  catchain )
-#add_executable(test-validator-session test/test-validator-session.cpp)
-#target_link_libraries(test-validator-session overlay tdutils tdactor adnl tl_api dht
-#  catchain validatorsession)
-add_executable(test-ton-collator test/test-ton-collator.cpp)
-target_link_libraries(test-ton-collator overlay tdutils tdactor adnl tl_api dht
-  catchain validatorsession validator-disk ton_validator validator-disk )
-#add_executable(test-validator test/test-validator.cpp)
-#target_link_libraries(test-validator overlay tdutils tdactor adnl tl_api dht
-#    rldp catchain validatorsession ton-node validator ton_validator validator memprof ${JEMALLOC_LIBRARIES})
-#add_executable(test-ext-server test/test-ext-server.cpp)
-#target_link_libraries(test-ext-server tdutils tdactor adnl tl_api dht )
-#add_executable(test-ext-client test/test-ext-client.cpp)
-#target_link_libraries(test-ext-client tdutils tdactor adnl tl_api tl-lite-utils)
+  add_executable(test-catchain test/test-catchain.cpp)
+  target_link_libraries(test-catchain overlay tdutils tdactor adnl adnltest rldp tl_api dht
+          catchain )
+  #add_executable(test-validator-session test/test-validator-session.cpp)
+  #target_link_libraries(test-validator-session overlay tdutils tdactor adnl tl_api dht
+  #  catchain validatorsession)
+  add_executable(test-ton-collator test/test-ton-collator.cpp)
+  target_link_libraries(test-ton-collator overlay tdutils tdactor adnl tl_api dht
+          catchain validatorsession validator-disk ton_validator validator-disk )
+  #add_executable(test-validator test/test-validator.cpp)
+  #target_link_libraries(test-validator overlay tdutils tdactor adnl tl_api dht
+  #    rldp catchain validatorsession ton-node validator ton_validator validator memprof ${JEMALLOC_LIBRARIES})
+  #add_executable(test-ext-server test/test-ext-server.cpp)
+  #target_link_libraries(test-ext-server tdutils tdactor adnl tl_api dht )
+  #add_executable(test-ext-client test/test-ext-client.cpp)
+  #target_link_libraries(test-ext-client tdutils tdactor adnl tl_api tl-lite-utils)
 
-add_executable(test-http test/test-http.cpp)
-target_link_libraries(test-http PRIVATE tonhttp)
+  add_executable(test-http test/test-http.cpp)
+  target_link_libraries(test-http PRIVATE tonhttp)
 
-get_directory_property(HAS_PARENT PARENT_DIRECTORY)
-if (HAS_PARENT)
-  set(ALL_TEST_SOURCE
-          ${TDUTILS_TEST_SOURCE}
-          ${TDACTOR_TEST_SOURCE}
-          ${NET_TEST_SOURCE}
-          ${TDDB_TEST_SOURCE}
-          ${FEC_TEST_SOURCE}
-          ${ED25519_TEST_SOURCE}
-          ${TONDB_TEST_SOURCE}
-          ${CELLS_TEST_SOURCE} # ${TONVM_TEST_SOURCE} ${FIFT_TEST_SOURCE} ${TONLIB_ONLINE_TEST_SOURCE}
-          PARENT_SCOPE)
-endif()
-add_library(all_tests INTERFACE)
-target_link_libraries(all_tests INTERFACE tdutils tdactor tdnet tdfec ton_db ton_crypto fift-lib)
+  get_directory_property(HAS_PARENT PARENT_DIRECTORY)
+  if (HAS_PARENT)
+    set(ALL_TEST_SOURCE
+            ${TDUTILS_TEST_SOURCE}
+            ${TDACTOR_TEST_SOURCE}
+            ${NET_TEST_SOURCE}
+            ${TDDB_TEST_SOURCE}
+            ${FEC_TEST_SOURCE}
+            ${ED25519_TEST_SOURCE}
+            ${TONDB_TEST_SOURCE}
+            ${CELLS_TEST_SOURCE} # ${TONVM_TEST_SOURCE} ${FIFT_TEST_SOURCE} ${TONLIB_ONLINE_TEST_SOURCE}
+            PARENT_SCOPE)
+  endif()
+  add_library(all_tests INTERFACE)
+  target_link_libraries(all_tests INTERFACE tdutils tdactor tdnet tdfec ton_db ton_crypto fift-lib)
 endif()
 #END internal
 
@@ -554,16 +550,15 @@ add_test(test-tonlib-offline test-tonlib-offline)
 
 #BEGIN internal
 if (NOT TON_ONLY_TONLIB)
-add_test(test-adnl test-adnl)
-add_test(test-dht test-dht)
-add_test(test-rldp test-rldp)
-add_test(test-rldp2 test-rldp2)
-#add_test(test-validator-session-state test-validator-session-state)
-add_test(test-catchain test-catchain)
+  add_test(test-adnl test-adnl)
+  add_test(test-dht test-dht)
+  add_test(test-rldp test-rldp)
+  add_test(test-rldp2 test-rldp2)
+  #add_test(test-validator-session-state test-validator-session-state)
+  add_test(test-catchain test-catchain)
 
-add_test(test-fec test-fec)
-add_test(test-tddb test-tddb ${TEST_OPTIONS})
-add_test(test-db test-db ${TEST_OPTIONS})
+  add_test(test-fec test-fec)
+  add_test(test-tddb test-tddb ${TEST_OPTIONS})
+  add_test(test-db test-db ${TEST_OPTIONS})
 endif()
 #END internal
-
