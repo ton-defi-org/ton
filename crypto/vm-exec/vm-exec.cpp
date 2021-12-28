@@ -164,6 +164,8 @@ std::string stack2json(vm::Ref<vm::Stack> stack) {
 std::string run_vm(td::Ref<vm::Cell> code_cell, td::Ref<vm::Cell> data, td::JsonArray& stack_array, int function_selector) {
     auto code = code_cell;
 
+    vm::init_op_cp0();
+
     auto stack = json_to_stack(stack_array);
 
     td::int64 method_id = function_selector;
@@ -225,15 +227,15 @@ void execute(td::Slice config_file_name) {
 
     auto& initial_stack_array = initial_stack.get_array();
 
-    auto decoded_code = td::base64_decode(code).move_as_ok();
-
     auto data_bytes = td::base64_decode(data).move_as_ok();
     auto boc = vm::std_boc_deserialize(data_bytes).move_as_ok();
     auto data_cell = boc->load_cell().move_as_ok();
 
-    auto code_s = td::Slice(decoded_code);
-    auto compiled_source = fift::compile_asm(code_s, "", false).move_as_ok();
-    auto res = run_vm(compiled_source, data_cell.data_cell, initial_stack_array, function_selector);
+    auto decoded_code = td::base64_decode(code).move_as_ok();
+    auto code_boc = vm::std_boc_deserialize(decoded_code).move_as_ok();
+    auto code_cell = code_boc->load_cell().move_as_ok();
+
+    auto res = run_vm(code_cell.data_cell, data_cell.data_cell, initial_stack_array, function_selector);
     out << res;
 }
 
