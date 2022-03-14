@@ -62,4 +62,11 @@
   #define TD_HAS_MMSG 1
 #endif
 
+
+#if TD_EMSCRIPTEN
+  #define TD_POLL_EPOLL 1
+  #define TD_EVENTFD_UNSUPPORTED 0
+  #define TD_THREAD_PTHREAD 1
+  #define TD_EVENTFD_LINUX 1
+#endif
 // clang-format on

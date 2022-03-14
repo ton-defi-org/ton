@@ -149,11 +149,11 @@ endif()
 
 install(FILES ${TONLIB_JSON_HEADERS} ${CMAKE_CURRENT_BINARY_DIR}/tonlib/tonlibjson_export.h DESTINATION include/tonlib/)
 
-install(EXPORT Tonlib
-  FILE TonlibTargets.cmake
-  NAMESPACE Tonlib::
-  DESTINATION lib/cmake/Tonlib
-)
+#install(EXPORT Tonlib
+#  FILE TonlibTargets.cmake
+#  NAMESPACE Tonlib::
+#  DESTINATION lib/cmake/Tonlib
+#)
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file("TonlibConfigVersion.cmake"
   VERSION ${TON_VERSION}
