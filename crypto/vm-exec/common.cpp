@@ -178,9 +178,11 @@ td::Result<std::string> run_vm(td::Ref<vm::Cell> code, td::Ref<vm::Cell> data, t
   try {
     exit_code = ~vm.run();
   } catch (vm::VmVirtError &err) {
-    LOG(ERROR) << "virtualization error while running VM to locally compute runSmcMethod result: " << err.get_msg();
+    LOG(ERROR) << "virtualization error while running VM: " << err.get_msg();
+    exit_code = -1;
   } catch (vm::VmError &err) {
-    LOG(ERROR) << "error while running VM to locally compute runSmcMethod result: " << err.get_msg();
+    LOG(ERROR) << "error while running VM: " << err.get_msg();
+    exit_code = -1;
   }
 
   if (exit_code != 0) {
