@@ -2,6 +2,7 @@
 #include "td/utils/logging.h"
 #include "StringLog.h"
 #include "common.h"
+#include <thread>
 
 using namespace std::literals::string_literals;
 
@@ -27,4 +28,8 @@ extern "C" char *vm_exec(int len, char *_data) {
     return strdup(result.c_str());
   }
   return strdup(res.move_as_ok().c_str());
+}
+
+int main(int argc, char *argv[]) {
+  return 0;
 }
