@@ -193,12 +193,12 @@ td::Result<std::string> run_vm(td::Ref<vm::Cell> code, td::Ref<vm::Cell> data, t
     errored = true;
   }
 
-  if (errored) {
+  if (errored || exit_code != 0) {
     auto serialized_logs = td::base64_encode(getLogs());
 
     std::string result;
     result += "{";
-    result += R"("ok": true,)";
+    result += R"("ok": false,)";
     result += R"("exit_code":)" + std::to_string(exit_code) + ",";
     result += R"("logs": ")" + serialized_logs + R"(")";
     result += "}";
