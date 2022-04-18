@@ -193,7 +193,7 @@ td::Result<std::string> run_vm(td::Ref<vm::Cell> code, td::Ref<vm::Cell> data, t
     errored = true;
   }
 
-  if (exit_code != 0 && !errored) {
+  if (errored) {
     auto serialized_logs = td::base64_encode(getLogs());
 
     std::string result;
