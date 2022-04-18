@@ -75,16 +75,10 @@ int exec_dump_stack(VmState* st) {
   }
   Stack& stack = st->get_stack();
   int d = stack.depth();
-  std::cerr << "#DEBUG#: stack(" << d << " values) : ";
-  if (d > 255) {
-    std::cerr << "... ";
-    d = 255;
-  }
+  VM_LOG(st) << "#DEBUG#: stack(" << d << " values) : ";
   for (int i = d; i > 0; i--) {
-    stack[i - 1].print_list(std::cerr);
-    std::cerr << ' ';
+    VM_LOG(st) << "s" << i-1 << " = " << stack[i - 1].to_lisp_string();
   }
-  std::cerr << std::endl;
   return 0;
 }
 
@@ -96,11 +90,9 @@ int exec_dump_value(VmState* st, unsigned arg) {
   }
   Stack& stack = st->get_stack();
   if ((int)arg < stack.depth()) {
-    std::cerr << "#DEBUG#: s" << arg << " = ";
-    stack[arg].print_list(std::cerr);
-    std::cerr << std::endl;
+    VM_LOG(st) << "#DEBUG#: s" << arg << " = " << stack[arg].to_lisp_string();
   } else {
-    std::cerr << "#DEBUG#: s" << arg << " is absent" << std::endl;
+    VM_LOG(st) << "#DEBUG#: s" << arg << " is absent";
   }
   return 0;
 }

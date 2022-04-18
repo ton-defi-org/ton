@@ -19,7 +19,11 @@
 #include "td/utils/OptionParser.h"
 #include "td/utils/logging.h"
 #include "StringLog.h"
+#include <sstream>
+#include <iomanip>
 
+
+std::string escape_json(const std::string &s);
 
 td::Ref<vm::Tuple> prepare_vm_c7(ton::UnixTime now);
 

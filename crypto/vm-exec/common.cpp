@@ -4,6 +4,29 @@
 
 #include "common.h"
 
+std::string escape_json(const std::string &s) {
+  std::ostringstream o;
+  for (auto c = s.cbegin(); c != s.cend(); c++) {
+    switch (*c) {
+      case '"': o << "\\\""; break;
+      case '\\': o << "\\\\"; break;
+      case '\b': o << "\\b"; break;
+      case '\f': o << "\\f"; break;
+      case '\n': o << "\\n"; break;
+      case '\r': o << "\\r"; break;
+      case '\t': o << "\\t"; break;
+      default:
+        if ('\x00' <= *c && *c <= '\x1f') {
+          o << "\\u"
+            << std::hex << std::setw(4) << std::setfill('0') << static_cast<int>(*c);
+        } else {
+          o << *c;
+        }
+    }
+  }
+  return o.str();
+}
+
 td::Ref<vm::Tuple> prepare_vm_c7(ton::UnixTime now) {
   //    auto now = static_cast<unsigned int>(td::Time::now());
   td::BitArray<256> rand_seed;
@@ -73,6 +96,9 @@ td::Result<td::Ref<vm::Stack>> json_to_stack(td::JsonArray &array) {
   auto stack = td::make_ref<vm::Stack>();
 
   for (auto &x : array) {
+    if (x.type() != td::JsonValue::Type::Object) {
+       return td::Status::Error(PSLICE() << "Stack item must be object");
+    }
     auto &obj = x.get_object();
     TRY_RESULT(entry, json_to_stack_entry(obj));
     stack.write().push(entry);
@@ -116,25 +142,6 @@ td::Result<std::string> stack_entry_to_json(vm::StackEntry se) {
     return res;
   }
 
-  //
-  // Non supported by TVM
-  //
-  if (se.type() == vm::StackEntry::Type::t_builder) {
-    return R"({ "type": "t_builder" })";
-  }
-  if (se.type() == vm::StackEntry::Type::t_vmcont) {
-    return R"({ "type": "t_vmcont" })";
-  }
-  if (se.type() == vm::StackEntry::Type::t_string) {
-    return R"({ "type": "string", value: ")" + se.as_string() + R"("})";
-  }
-  if (se.type() == vm::StackEntry::Type::t_bytes) {
-    return R"({ "type": "bytes", value: ")" + td::base64_encode(se.as_bytes()) + R"("})";
-  }
-  if (se.type() == vm::StackEntry::Type::t_bitstring) {
-    return R"({ "type": "bitstring", value: ")" + td::base64_encode(se.as_bytes()) + R"("})";
-  }
-
   return R"({ "type": "unknown" })";
 }
 
@@ -175,17 +182,18 @@ td::Result<std::string> run_vm(td::Ref<vm::Cell> code, td::Ref<vm::Cell> data, t
   LOG(INFO) << "starting VM to run method `" << function_selector << "` of smart contract";
 
   int exit_code;
+  bool errored = false;
   try {
     exit_code = ~vm.run();
   } catch (vm::VmVirtError &err) {
     LOG(ERROR) << "virtualization error while running VM: " << err.get_msg();
-    exit_code = -1;
+    errored = true;
   } catch (vm::VmError &err) {
     LOG(ERROR) << "error while running VM: " << err.get_msg();
-    exit_code = -1;
+    errored = true;
   }
 
-  if (exit_code != 0) {
+  if (exit_code != 0 && !errored) {
     auto serialized_logs = td::base64_encode(getLogs());
 
     std::string result;
@@ -227,6 +235,14 @@ td::Result<std::string> run_vm(td::Ref<vm::Cell> code, td::Ref<vm::Cell> data, t
 td::Result<std::string> vm_exec_from_config(std::string config, std::function<std::string()> getLogs) {
   TRY_RESULT(input_json, td::json_decode(config))
   auto &obj = input_json.get_object();
+
+  TRY_RESULT(debug, td::get_json_object_bool_field(obj, "debug", false));
+
+  if (debug) {
+    SET_VERBOSITY_LEVEL(verbosity_DEBUG);
+  } else {
+    SET_VERBOSITY_LEVEL(verbosity_ERROR);
+  }
 
   TRY_RESULT(code, td::get_json_object_string_field(obj, "code", false));
   TRY_RESULT(data, td::get_json_object_string_field(obj, "data", false));
