@@ -4,10 +4,11 @@ on: [push,workflow_dispatch]
 
 jobs:
   build:
-
     runs-on: ubuntu-18.04
-
     steps:
+      - uses: mymindstorm/setup-emsdk@v11
+      - name: Verify emsdk
+        run: emcc -v
     - name: Check out repository
       uses: actions/checkout@v2
       with:      
@@ -29,17 +30,17 @@ jobs:
     - name: cmake
       run: | 
         cd build
-        cmake ..
-    - name: make -j4
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=Emscripten.cmake
+    - name: cmake vm-exec
       run: |
         cd build
-        make -j4
-    - name: find & copy binaries
+        cmake --build . --target vm-exec
+    - name: find & copy wasm files
       run: |
-        mkdir artifacts
-        cp --parents build/crypto/fift build/crypto/adjust-block build/crypto/dump-block build/crypto/tlbc build/crypto/func build/crypto/create-state build/validator-engine-console/validator-engine-console build/tonlib/tonlib-cli build/tonlib/libtonlibjson.so.0.5 build/tddb/io-bench build/http/http-proxy build/tdnet/udp_ping_pong build/tdnet/tcp_ping_pong build/rldp-http-proxy/rldp-http-proxy build/dht-server/dht-server build/lite-client/lite-client build/validator-engine/validator-engine build/utils/generate-random-id build/utils/pack-viewer build/utils/json2tlo build/adnl/adnl-proxy build/adnl/adnl-pong artifacts
+        mkdir wasm-artifacts
+        cp --parents build/crypto/vm-exec.wasm build/crypto/vm-exec.js
     - name: Upload artifacts
       uses: actions/upload-artifact@master
       with:
-        name: ton-binaries
-        path: artifacts
+        name: ton-wasm-files
+        path: wasm-artifacts
