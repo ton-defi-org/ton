@@ -12,7 +12,7 @@ if(EMSCRIPTEN)
   set(OPENSSL_LIBRARIES "${OPENSSL_SSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY}")
 
   set(ZLIB_LIBRARY "{GITHUB_ACTION_PATH}/wasm-libs/zlib/")
-  set(ZLIB_INCLUDE_DIR "{GITHUB_ACTION_PATH}/wasm-libs/zlib/"")
+  set(ZLIB_INCLUDE_DIR "{GITHUB_ACTION_PATH}/wasm-libs/zlib/")
 else()
   set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl/")
   set(GSL_ROOT_DIR "/opt/homebrew/opt/gsl/")
