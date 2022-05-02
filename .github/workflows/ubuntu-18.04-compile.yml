@@ -1,16 +1,15 @@
 name: C/C++ CI Ubuntu 18.04 Compile
 
-on: 
-  push:
-    branches:
-      - master
+on: [push,workflow_dispatch]
 
 jobs:
   build:
+
     runs-on: ubuntu-18.04
+
     steps:
       - uses: mymindstorm/setup-emsdk@v11
-      - name: Verify em-sdk
+      - name: Verify emsdk
         run: emcc -v
     - name: Check out repository
       uses: actions/checkout@v2
