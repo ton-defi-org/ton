@@ -1,4 +1,4 @@
-name: C/C++ CI Ubuntu 18.04 Compile
+name: C/C++ CI Ubuntu 18.04 Building vm-exec wasm
 
 on: [push,workflow_dispatch]
 
@@ -21,7 +21,7 @@ jobs:
     - name: cmake
       run: | 
         cd build
-        cmake .. -DCMAKE_TOOLCHAIN_FILE=Emscripten.cmake
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
     - name: cmake vm-exec
       run: |
         cd build
