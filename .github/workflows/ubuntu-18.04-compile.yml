@@ -8,9 +8,6 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-      - uses: mymindstorm/setup-emsdk@v11
-      - name: Verify emsdk
-        run: emcc -v
     - name: Check out repository
       uses: actions/checkout@v2
       with:      
