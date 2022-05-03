@@ -33,6 +33,8 @@ jobs:
                              
     - name: cmake vm-exec
       run: |
+        echo "pwd:$pwd"
+        cd build
         cmake --build . --target vm-exec
     - name: find & copy wasm files
       run: |
