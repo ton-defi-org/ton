@@ -25,14 +25,9 @@ jobs:
       uses: actions/checkout@v2
       with:      
         submodules: 'recursive'
-    - name: ls zlib
+    - name: install readline depdency
       run: |
-        echo $GITHUB_WORKSPACE
-        cd $GITHUB_WORKSPACE
-        ls
-        echo $ZLIB_LIBRARY
-        cd $ZLIB_LIBRARY
-        ls
+        sudo apt-get install libreadline-dev
     - name: mkdir
       run: |
         mkdir build
