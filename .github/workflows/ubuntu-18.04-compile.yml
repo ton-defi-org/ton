@@ -23,8 +23,9 @@ jobs:
         ./emsdk install latest
         ./emsdk activate latest
         source ./emsdk_env.sh
-        cd cmake/Modules/Platform/
+        cd /upstream/emscripten/Modules/Platform/
         ls
+        cd $GITHUB_WORKSPACE
     - name: Check out repository
       uses: actions/checkout@v2
       with:      
