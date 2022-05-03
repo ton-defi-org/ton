@@ -39,10 +39,13 @@ jobs:
     - name: cmake
       run: | 
         cd build
-        echo 'ZLIB_LIBRARY: $ZLIB_LIBRARY'
-        echo 'ZLIB_INCLUDE_DIR: $ZLIB_INCLUDE_DIR'
-        echo '$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake'
-        cmake .. -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DZLIB_LIBRARY={{ env.ZLIB_LIBRARY }} -DZLIB_INCLUDE_DIR=${{ env.ZLIB_INCLUDE_DIR }} 
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+        -DZLIB_LIBRARY={{ env.ZLIB_LIBRARY }} \
+        -DZLIB_INCLUDE_DIR=${{ env.ZLIB_INCLUDE_DIR }} \
+        -DOPENSSL_ROOT_DIR=${{ env.OPENSSL_ROOT_DIR }} \
+        -DOPENSSL_CRYPTO_LIBRARY=${{ env.OPENSSL_CRYPTO_LIBRARY }} \
+        -DOPENSSL_SSL_LIBRARY=${{ env.OPENSSL_SSL_LIBRARY }} \
+        -DOPENSSL_LIBRARIES=${{ env.OPENSSL_LIBRARIES }} \
     - name: cmake vm-exec
       run: |
         cd build
