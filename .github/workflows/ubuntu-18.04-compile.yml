@@ -23,6 +23,8 @@ jobs:
         ./emsdk install latest
         ./emsdk activate latest
         source ./emsdk_env.sh
+        cd cmake/Modules/Platform/
+        ls
     - name: Check out repository
       uses: actions/checkout@v2
       with:      
@@ -37,7 +39,6 @@ jobs:
       run: | 
         cd build
         cmake -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake ..
-
     - name: cmake vm-exec
       run: |
         cmake --build . --target vm-exec
