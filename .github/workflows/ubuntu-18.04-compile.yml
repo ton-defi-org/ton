@@ -16,9 +16,13 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - uses: mymindstorm/setup-emsdk@v11
-    - name: Verify emsdk
-      run: emcc -v
+    - name: install emsdk from source
+      run: | 
+        git clone https://github.com/emscripten-core/emsdk.git
+        cd emsdk
+        ./emsdk install latest
+        ./emsdk activate latest
+        source ./emsdk_env.sh
     - name: Check out repository
       uses: actions/checkout@v2
       with:      
