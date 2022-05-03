@@ -30,12 +30,7 @@ jobs:
 
         echo "running cmake at folder pwd:$pwd"
         cmake -DCMAKE_TOOLCHAIN_FILE=/home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake  ..
-                             
-    - name: cmake vm-exec
-      run: |
-        echo "pwd:$pwd"
-        cd build
-        cmake --build . --target vm-exec
+        cmake --build . --target vm-exec                     
     - name: find & copy wasm files
       run: |
         mkdir wasm-artifacts
