@@ -9,9 +9,9 @@ if(EMSCRIPTEN)
   set(OPENSSL_CRYPTO_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/libcrypto.a")
   set(OPENSSL_SSL_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/libssl.a")
   set(OPENSSL_LIBRARIES "${OPENSSL_SSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY}")
-  
-  set(ZLIB_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/zlib/")
-  set(ZLIB_INCLUDE_DIR "${GITHUB_WORKSPACE}/wasm-libs/zlib/")
+
+  set(ZLIB_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/zlib-1.2.12/")
+  set(ZLIB_INCLUDE_DIR "${GITHUB_WORKSPACE}/wasm-libs/zlib-1.2.12/")
 else()
   set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl/")
   set(GSL_ROOT_DIR "/opt/homebrew/opt/gsl/")
