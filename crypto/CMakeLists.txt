@@ -179,10 +179,7 @@ set(FUNC_LIB_SOURCE
   func/codegen.cpp
 )
 
-set(TLB_BLOCK_AUTO
-  ${CMAKE_CURRENT_SOURCE_DIR}/block/block-auto.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/block/block-auto.h
-)
+
 
 set(BLOCK_SOURCE
   block/Binlog.h
