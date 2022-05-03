@@ -2,8 +2,8 @@ name: C/C++ CI Ubuntu 18.04 Building vm-exec wasm
 
 on: [push,workflow_dispatch]
 env:
-  ZLIB_LIBRARY: ${{ github.workspace }}/wasm-libs/zlib/
-  ZLIB_INCLUDE_DIR: ${{ github.workspace }}/wasm-libs/zlib/
+  ZLIB_LIBRARY: ${{ github.workspace }}/wasm-libs/zlib-1.2.12/
+  ZLIB_INCLUDE_DIR: ${{ github.workspace }}/wasm-libs/zlib-1.2.12/
   OPENSSL_ROOT_DIR: ${{ github.workspace }}/wasm-libs/openssl/openssl-1.1.1d/
   OPENSSL_INCLUDE_DIR: ${{ github.workspace }}/wasm-libs/openssl/openssl-1.1.1d/include/
   OPENSSL_CRYPTO_LIBRARY: ${{ github.workspace }}/wasm-libs/openssl/openssl-1.1.1d/libcrypto.a
@@ -19,10 +19,16 @@ jobs:
     - uses: mymindstorm/setup-emsdk@v11
     - name: Verify emsdk
       run: emcc -v
+
+    
     - name: Check out repository
       uses: actions/checkout@v2
       with:      
         submodules: 'recursive'
+    - name: zlibList
+      run: | 
+      cd $ZLIB_LIBRARY
+      ls
     - name: mkdir
       run: |
         mkdir build
