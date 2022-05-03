@@ -33,6 +33,7 @@ jobs:
         ls
         cd Modules
         cd Platform
+        echo "PWD:$PWD ls"
         ls
         cd $GITHUB_WORKSPACE
     - name: Check out repository
@@ -48,7 +49,8 @@ jobs:
     - name: cmake
       run: | 
         cd build
-        cmake -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake ..
+        cmake -DCMAKE_TOOLCHAIN_FILE=/home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake ..
+                             
     - name: cmake vm-exec
       run: |
         cmake --build . --target vm-exec
