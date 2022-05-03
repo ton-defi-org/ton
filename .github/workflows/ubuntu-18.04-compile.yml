@@ -23,7 +23,7 @@ jobs:
         ./emsdk install latest
         ./emsdk activate latest
         source ./emsdk_env.sh
-        cd /upstream/emscripten/Modules/Platform/
+        cd upstream/emscripten/Modules/Platform/
         ls
         cd $GITHUB_WORKSPACE
     - name: Check out repository
