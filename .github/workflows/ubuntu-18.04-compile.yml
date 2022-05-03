@@ -9,28 +9,14 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - name: install emsdk from source
-      run: | 
-        git clone https://github.com/emscripten-core/emsdk.git
-        cd emsdk
-        ./emsdk install latest
-        ./emsdk activate latest
-        source ./emsdk_env.sh
-        stat  /home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
-        cd $GITHUB_WORKSPACE
     - name: Check out repository
       uses: actions/checkout@v2
       with:      
         submodules: 'recursive'
-    - name: install readline depdency
-      run: |
-        sudo apt-get install libreadline-dev
-    - name: mkdir
-      run: |
-        mkdir build
     - name: cmake (install emsdk)
-        
+
       run: |
+        sudo apt-get install libreadline-dev -y
         git clone https://github.com/emscripten-core/emsdk.git
         cd emsdk
         ./emsdk install latest
@@ -38,6 +24,7 @@ jobs:
         source ./emsdk_env.sh
         stat  /home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
         cd ..
+        mkdir build
         cd build
         cmake \
         -DCMAKE_TOOLCHAIN_FILE=/home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
