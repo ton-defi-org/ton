@@ -35,6 +35,7 @@ jobs:
         cd Platform
         echo "PWD:$PWD ls"
         ls
+        stat  /home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
         cd $GITHUB_WORKSPACE
     - name: Check out repository
       uses: actions/checkout@v2
@@ -49,7 +50,7 @@ jobs:
     - name: cmake
       run: | 
         cd build
-        stat  /home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+        
         cmake -DCMAKE_TOOLCHAIN_FILE=/home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake ..
                              
     - name: cmake vm-exec
