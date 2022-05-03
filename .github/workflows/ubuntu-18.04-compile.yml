@@ -19,18 +19,18 @@ jobs:
     - uses: mymindstorm/setup-emsdk@v11
     - name: Verify emsdk
       run: emcc -v
+    - name: Check out repository
+      uses: actions/checkout@v2
+      with:      
+        submodules: 'recursive'
     - name: ls zlib
       run: |
         echo $GITHUB_WORKSPACE
         cd $GITHUB_WORKSPACE
         ls
         echo $ZLIB_LIBRARY
-        cd /home/runner/work/ton/ton/wasm-libs
+        cd $ZLIB_LIBRARY
         ls
-    - name: Check out repository
-      uses: actions/checkout@v2
-      with:      
-        submodules: 'recursive'
     - name: mkdir
       run: |
         mkdir build
