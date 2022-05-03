@@ -36,7 +36,7 @@ jobs:
     - name: cmake
       run: | 
         cd build
-        cmake -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace}}/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake ..
+        cmake -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake ..
 
     - name: cmake vm-exec
       run: |
