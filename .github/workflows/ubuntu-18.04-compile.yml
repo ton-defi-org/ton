@@ -28,6 +28,9 @@ jobs:
         cd emscripten
         echo "PWD:$PWD"
         ls
+        cd cmake
+        echo "PWD:$PWD"
+        ls
         cd Modules
         cd Platform
         ls
