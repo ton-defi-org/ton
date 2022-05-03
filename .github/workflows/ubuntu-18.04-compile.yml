@@ -10,6 +10,8 @@ env:
   OPENSSL_SSL_LIBRARY: ${{ github.workspace }}/wasm-libs/openssl/openssl-1.1.1d/libssl.a
   OPENSSL_LIBRARIES: ${{ github.workspace }}/wasm-libs/openssl/openssl-1.1.1d/libssl.a ${{ github.workspace }}/wasm-libs/openssl/openssl-1.1.1d/libcrypto.a
 
+
+
 jobs:
   build:
 
@@ -37,7 +39,10 @@ jobs:
     - name: cmake
       run: | 
         cd build
-        cmake .. -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+        echo 'ZLIB_LIBRARY: $ZLIB_LIBRARY'
+        echo 'ZLIB_INCLUDE_DIR: $ZLIB_INCLUDE_DIR'
+        echo '$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake'
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DZLIB_LIBRARY={{ env.ZLIB_LIBRARY }} -DZLIB_INCLUDE_DIR=${{ env.ZLIB_INCLUDE_DIR }} 
     - name: cmake vm-exec
       run: |
         cd build
