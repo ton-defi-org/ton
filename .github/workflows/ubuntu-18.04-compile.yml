@@ -19,8 +19,11 @@ jobs:
     - uses: mymindstorm/setup-emsdk@v11
     - name: Verify emsdk
       run: emcc -v
-    - name: Install zlib and open ssl
-      run: sudo apt-get install -y  libssl-dev zlib1g-dev
+    - name: ls zlib folder
+      run: |
+      echo $ZLIB_LIBRARY
+      cd $ZLIB_LIBRARY
+      ls
     - name: Check out repository
       uses: actions/checkout@v2
       with:      
