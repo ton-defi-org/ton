@@ -10,8 +10,6 @@ env:
   OPENSSL_SSL_LIBRARY: ${{ github.workspace }}/wasm-libs/openssl/openssl-1.1.1d/libssl.a
   OPENSSL_LIBRARIES: ${{ github.workspace }}/wasm-libs/openssl/openssl-1.1.1d/libssl.a ${{ github.workspace }}/wasm-libs/openssl/openssl-1.1.1d/libcrypto.a
 
-
-
 jobs:
   build:
 
@@ -35,17 +33,7 @@ jobs:
       run: | 
         cd build
         echo $pwd
-        cmake 
-        -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
-        -DZLIB_LIBRARY=${{ env.ZLIB_LIBRARY }} \
-        -DZLIB_INCLUDE_DIR=${{ env.ZLIB_INCLUDE_DIR }} \
-        -DOPENSSL_ROOT_DIR=${{ env.OPENSSL_ROOT_DIR }} \
-        -DOPENSSL_INCLUDE_DIR=${{ env.OPENSSL_INCLUDE_DIR }} \
-        -DOPENSSL_CRYPTO_LIBRARY=${{ env.OPENSSL_CRYPTO_LIBRARY }} \
-        -DOPENSSL_SSL_LIBRARY=${{ env.OPENSSL_SSL_LIBRARY }} \
-        -DOPENSSL_LIBRARIES="${{ env.OPENSSL_LIBRARIES }}" \
-        ..
-
+        cmake ..
     - name: cmake vm-exec
       run: |
         cmake --build . --target vm-exec
