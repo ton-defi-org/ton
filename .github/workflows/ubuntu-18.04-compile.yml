@@ -1,7 +1,10 @@
 name: C/C++ CI Ubuntu 18.04 Building vm-exec wasm
 
 on: [push,workflow_dispatch]
-
+env:
+  ZLIB_LIBRARY: $GITHUB_ACTION_PATH/wasm-libs/zlib/
+  ZLIB_INCLUDE_DIR: $GITHUB_ACTION_PATH/wasm-libs/zlib/
+  
 jobs:
   build:
 
