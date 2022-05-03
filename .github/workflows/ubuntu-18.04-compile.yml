@@ -29,8 +29,6 @@ jobs:
         mkdir build
         cd build
 
-        echo "mssing cpp path"
-        stat /home/runner/work/ton/ton/crypto/block/block-auto.cpp
         echo "running cmake at folder pwd:$pwd"
         cmake \
         -DCMAKE_BUILD_TYPE=Release \
