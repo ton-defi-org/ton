@@ -39,6 +39,7 @@ jobs:
     - name: cmake
       run: | 
         cd build
+        echo $pwd
         cmake .. \
         -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
         -DZLIB_LIBRARY={{ env.ZLIB_LIBRARY }} \
