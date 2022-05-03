@@ -33,6 +33,7 @@ jobs:
         stat /home/runner/work/ton/ton/crypto/block/block-auto.cpp
         echo "running cmake at folder pwd:$pwd"
         cmake \
+        -DCMAKE_BUILD_TYPE=Release
         -DCMAKE_TOOLCHAIN_FILE=/home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
         -DZLIB_LIBRARY=$GITHUB_WORKSPACE/wasm-libs/zlib-1.2.12/ \
         -DZLIB_INCLUDE_DIR=$GITHUB_WORKSPACE/wasm-libs/zlib-1.2.12/ \
