@@ -14,7 +14,6 @@ jobs:
       with:      
         submodules: 'recursive'
     - name: cmake (install emsdk)
-
       run: |
         sudo apt-get install libreadline-dev -y
         git clone https://github.com/emscripten-core/emsdk.git
@@ -32,14 +31,7 @@ jobs:
         echo "running cmake at folder pwd:$pwd"
         cmake \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_TOOLCHAIN_FILE=/home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
-        -DZLIB_LIBRARY=$GITHUB_WORKSPACE/wasm-libs/zlib-1.2.12/ \
-        -DZLIB_INCLUDE_DIR=$GITHUB_WORKSPACE/wasm-libs/zlib-1.2.12/ \
-        -DOPENSSL_ROOT_DIR=$GITHUB_WORKSPACE/wasm-libs/openssl/openssl-1.1.1d/ \
-        -DOPENSSL_INCLUDE_DIR=$GITHUB_WORKSPACE/wasm-libs/openssl/openssl-1.1.1d/include/ \
-        -DOPENSSL_CRYPTO_LIBRARY=$GITHUB_WORKSPACE/wasm-libs/openssl/openssl-1.1.1d/libcrypto.a \
-        -DOPENSSL_SSL_LIBRARY=$GITHUB_WORKSPACE/wasm-libs/openssl/openssl-1.1.1d/libssl.a \
-        -DOPENSSL_LIBRARIES="$GITHUB_WORKSPACE/wasm-libs/openssl/openssl-1.1.1d/libssl.a $GITHUB_WORKSPACE/wasm-libs/openssl/openssl-1.1.1d/libcrypto.a" \
+        
         ..
                              
     - name: cmake vm-exec
