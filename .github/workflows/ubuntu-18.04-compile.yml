@@ -19,11 +19,11 @@ jobs:
     - uses: mymindstorm/setup-emsdk@v11
     - name: Verify emsdk
       run: emcc -v
-    - name: ls zlib folder
+    - name: ls zlib
       run: |
-      echo $ZLIB_LIBRARY
-      cd $ZLIB_LIBRARY
-      ls
+        echo $ZLIB_LIBRARY
+        cd $ZLIB_LIBRARY
+        ls
     - name: Check out repository
       uses: actions/checkout@v2
       with:      
