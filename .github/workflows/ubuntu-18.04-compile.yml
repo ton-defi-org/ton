@@ -22,10 +22,15 @@ jobs:
         ./emsdk install latest
         ./emsdk activate latest
         source ./emsdk_env.sh
+        echo "emscripten path"
         stat  /home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+        
         cd ..
         mkdir build
         cd build
+        echo "mssing cpp path"
+        stat /home/runner/work/ton/ton/crypto/block/block-auto.cpp
+        echo "running cmake"
         cmake \
         -DCMAKE_TOOLCHAIN_FILE=/home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
         -DZLIB_LIBRARY=$GITHUB_WORKSPACE/wasm-libs/zlib-1.2.12/ \
