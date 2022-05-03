@@ -23,9 +23,11 @@ jobs:
         ./emsdk install latest
         ./emsdk activate latest
         source ./emsdk_env.sh
-        echo $PWD
+        echo "PWD:$PWD"
         cd upstream
         cd emscripten
+        echo "PWD:$PWD"
+        ls
         cd Modules
         cd Platform
         ls
