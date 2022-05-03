@@ -49,6 +49,7 @@ jobs:
     - name: cmake
       run: | 
         cd build
+        stat  /home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
         cmake -DCMAKE_TOOLCHAIN_FILE=/home/runner/work/ton/ton/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake ..
                              
     - name: cmake vm-exec
