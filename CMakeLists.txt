@@ -2,20 +2,15 @@ cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
 #set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl/")
 #set(GSL_ROOT_DIR "/opt/homebrew/opt/gsl/")
-if(EMSCRIPTEN)
-  set(OPENSSL_FOUND "1")
-  set(OPENSSL_ROOT_DIR "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/")
-  set(OPENSSL_INCLUDE_DIR "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/include/")
-  set(OPENSSL_CRYPTO_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/libcrypto.a")
-  set(OPENSSL_SSL_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/libssl.a")
-  set(OPENSSL_LIBRARIES "${OPENSSL_SSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY}")
+set(OPENSSL_FOUND "1")
+set(OPENSSL_ROOT_DIR "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/")
+set(OPENSSL_INCLUDE_DIR "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/include/")
+set(OPENSSL_CRYPTO_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/libcrypto.a")
+set(OPENSSL_SSL_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/openssl/openssl-1.1.1d/libssl.a")
+set(OPENSSL_LIBRARIES "${OPENSSL_SSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY}")
 
-  set(ZLIB_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/zlib-1.2.12/")
-  set(ZLIB_INCLUDE_DIR "${GITHUB_WORKSPACE}/wasm-libs/zlib-1.2.12/")
-else()
-  set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl/")
-  set(GSL_ROOT_DIR "/opt/homebrew/opt/gsl/")
-endif()
+set(ZLIB_LIBRARY "${GITHUB_WORKSPACE}/wasm-libs/zlib-1.2.12/")
+set(ZLIB_INCLUDE_DIR "${GITHUB_WORKSPACE}/wasm-libs/zlib-1.2.12/")
 
 
 
