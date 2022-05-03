@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
+message(STATUS "EMSDK: ${EMSDK}")
+
 #set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl/")
 #set(GSL_ROOT_DIR "/opt/homebrew/opt/gsl/")
 if(EMSCRIPTEN)

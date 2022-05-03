@@ -32,11 +32,7 @@ jobs:
     - name: cmake
       run: | 
         cd build
-        echo $pwd
-        cmake 
-        /cmake/Modules/Platform/Emscripten.cmake  
-        -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake 
-        ..
+        cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake ..
 
     - name: cmake vm-exec
       run: |
