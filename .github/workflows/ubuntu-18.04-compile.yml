@@ -28,11 +28,8 @@ jobs:
         mkdir build
         cd build
 
-        echo "running cmake at folder pwd:$pwd"
-        cmake \
-        -DCMAKE_BUILD_TYPE=Release \
+        cmake  -DCMAKE_BUILD_TYPE=Release ..
         
-        ..
                              
     - name: cmake vm-exec
       run: |
