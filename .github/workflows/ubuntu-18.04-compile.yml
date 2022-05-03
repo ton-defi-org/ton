@@ -2,8 +2,8 @@ name: C/C++ CI Ubuntu 18.04 Building vm-exec wasm
 
 on: [push,workflow_dispatch]
 env:
-  ZLIB_LIBRARY: ${{ env.GITHUB_WORKSPACE }}/wasm-libs/zlib/
-  ZLIB_INCLUDE_DIR: ${{ env.GITHUB_WORKSPACE }}/wasm-libs/zlib/
+  ZLIB_LIBRARY: ${{ github.workspace  }}/wasm-libs/zlib/
+  ZLIB_INCLUDE_DIR: ${{ github.workspace }}/wasm-libs/zlib/
   OPENSSL_ROOT_DIR: $GITHUB_WORKSPACE/wasm-libs/openssl/openssl-1.1.1d/
   OPENSSL_INCLUDE_DIR: $GITHUB_WORKSPACE/wasm-libs/openssl/openssl-1.1.1d/include/
   OPENSSL_CRYPTO_LIBRARY: $GITHUB_WORKSPACE/wasm-libs/openssl/openssl-1.1.1d/libcrypto.a
