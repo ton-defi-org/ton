@@ -46,8 +46,8 @@ jobs:
         -DOPENSSL_ROOT_DIR=${{ env.OPENSSL_ROOT_DIR }} \
         -DOPENSSL_INCLUDE_DIR=${{ env.OPENSSL_INCLUDE_DIR }} \
         -DOPENSSL_CRYPTO_LIBRARY=${{ env.OPENSSL_CRYPTO_LIBRARY }} \
-        -DOPENSSL_SSL_LIBRARY=${{ env.OPENSSL_SSL_LIBRARY }} \
-        -DOPENSSL_LIBRARIES="${{ env.OPENSSL_LIBRARIES }}"
+        -DOPENSSL_SSL_LIBRARY=${{ env.OPENSSL_SSL_LIBRARY }} 
+        
     - name: cmake vm-exec
       run: |
         cd build
